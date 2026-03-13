@@ -31,9 +31,6 @@ It allows users to convert long URLs into short, shareable links and track how m
 ## 📂 Project Structure
 
 ```
-## 📂 Project Structure
-
-```
 
 URL_Shortner
 │
@@ -63,7 +60,7 @@ URL_Shortner
 ├── .gitignore
 └── README.md
 
-````
+```
 
 ---
 
@@ -73,7 +70,7 @@ Clone the repository
 
 ```bash
 git clone https://github.com/AniSam0000/URL_Shortner.git
-````
+```
 
 Go to the project folder
 
