@@ -19,6 +19,9 @@ const urlSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// TTL index -> expire after 5 days
+urlSchema.index({ createdAt: 1 }, { expireAfterSeconds: 60 * 60 * 24 * 5 });
+
 urlSchema.methods.incrementClickCount = function () {
   this.clickCount += 1;
   return this.save();
