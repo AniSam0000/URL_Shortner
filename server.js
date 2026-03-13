@@ -4,7 +4,7 @@ import "dotenv/config";
 
 await connectDb();
 
-const port = 3000;
+const port = process.env.PORT;
 
 app.listen(port, (req, res) => {
   console.log(`Server is active on port ${port}`);
