@@ -1,9 +1,9 @@
 import express from "express";
+import { createShortUrlLimiter, redirectLimiter } from "../utils/rateLimit.js";
 import {
   createShortUrl,
   redirectToOriginalUrl,
 } from "../controllers/url.controller.js";
-import { createShortUrlLimiter, redirectLimiter } from "../utils/rateLimit.js";
 
 const router = express.Router();
 

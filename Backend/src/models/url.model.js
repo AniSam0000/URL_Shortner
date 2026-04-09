@@ -4,6 +4,13 @@ const urlRegex = /^(https?:\/\/)([\w-]+\.)+[\w-]{2,}(\/[^\s]*)?$/i;
 
 const urlSchema = new mongoose.Schema(
   {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: false,
+      default: null,
+      index: true,
+    },
     originalUrl: {
       type: String,
       required: true,
