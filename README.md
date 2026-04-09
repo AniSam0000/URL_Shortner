@@ -5,6 +5,7 @@ Full-stack URL shortener built with React, Express, MongoDB, and Redis.
 ## Overview
 
 This project provides a complete URL shortening workflow:
+
 - Users submit a long URL.
 - Backend normalizes and validates the URL.
 - If the URL already exists, the existing short code is returned.
@@ -34,6 +35,7 @@ The application is optimized with Redis for cache lookups and rate-limit storage
 ## Architecture
 
 High-level components:
+
 - Frontend sends API calls to backend (`/api`).
 - Backend handles auth, URL creation, and redirect logic.
 - MongoDB stores users and URL mappings.
@@ -41,6 +43,7 @@ High-level components:
 - Redis TTLs are used to expire cached URL mappings and rate-limit entries automatically.
 
 Request path summary:
+
 1. Frontend -> Backend API
 2. Backend -> Redis (cache first)
 3. Backend -> MongoDB (fallback + persistence)
@@ -155,17 +158,20 @@ sequenceDiagram
 Base URL: `http://localhost:5000`
 
 Auth:
+
 - `POST /api/user/register`
 - `POST /api/user/login`
 - `POST /api/user/logout`
 
 URL:
+
 - `POST /api/url/shorten`
 - `GET /api/url/:shortCode` (302 redirect)
 
 ## API Behavior Details
 
 ### `POST /api/url/shorten`
+
 - Input: `originalUrl`
 - Validation: URL must be valid; protocol is normalized if missing.
 - Cache strategy:
@@ -177,12 +183,14 @@ URL:
   - `200` when an existing URL mapping is reused.
 
 ### `GET /api/url/:shortCode`
+
 - Checks Redis first for redirect target.
 - On miss, loads from MongoDB and warms cache.
 - Returns `302` redirect on success.
 - Returns `404` when short code is not found.
 
 ### Auth Endpoints
+
 - Register/login return JWT and set an HTTP-only cookie.
 - Logout clears auth cookie.
 
@@ -259,6 +267,7 @@ Frontend runs on `http://localhost:5173` and proxies `/api` to backend.
 ## Environment Variables
 
 Backend:
+
 - `PORT`: API server port.
 - `MONGODB_URI`: Mongo host URI (database name is appended in code).
 - `JWT_SECRET`: secret used to sign auth tokens.
@@ -266,17 +275,20 @@ Backend:
 - `REDIS_PASSWORD`: Redis password (leave empty if not required).
 
 Frontend:
+
 - `VITE_BACKEND_URL`: target used by Vite dev proxy.
 - `VITE_API_BASE_URL`: API base path for frontend calls.
 
 ## Docker
 
 This repository includes a multi-stage `dockerfile` that:
+
 - builds the frontend,
 - installs backend production dependencies,
 - serves frontend from backend `public` folder.
 
 How it works:
+
 - Stage 1 builds frontend static files.
 - Stage 2 installs backend production dependencies.
 - Built frontend `dist` is copied into backend `public`.
@@ -311,12 +323,14 @@ Note: MongoDB and Redis must be available separately (local services or containe
 - Limit state is persisted in Redis via `rate-limit-redis` and naturally resets through the configured time window/TTL.
 
 When limit is exceeded:
+
 - API returns `429 Too Many Requests`.
 - Frontend handles this and shows retry messaging.
 
 ## Current Status
 
 Implemented:
+
 - URL shortening and redirect
 - Redis caching
 - Rate limiting
@@ -327,6 +341,7 @@ Implemented:
 - TTL-based expiry for Redis cache entries and rate-limit keys
 
 Not yet implemented:
+
 - Automated tests
 - Docker Compose for full stack
 - Route-level auth protection in URL endpoints
@@ -345,4 +360,3 @@ Not yet implemented:
 - Add automated tests (backend API + frontend component/integration tests).
 - Add CI pipeline for lint, test, build, and Docker image build.
 - Improve security with refresh tokens, stricter cookie settings, and CORS policy hardening.
-
