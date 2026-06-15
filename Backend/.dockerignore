@@ -1,0 +1,19 @@
+# Dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+
+
+
+
+# Environment files
+.env
+
+
+# Git
+.git
+.gitignore
+

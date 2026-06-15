@@ -2,6 +2,8 @@ import { Url } from "../models/url.model.js";
 import { generateShortCode } from "../utils/shortCode.generator.js";
 import { connectRedis } from "../config/redis.config.js";
 
+const urlRegex = /^(https?:\/\/)([\w-]+\.)+[\w-]{2,}(\/[^\s]*)?$/i;
+
 const normalizeUrl = (value) => {
   if (!value || typeof value !== "string") return null;
   let input = value.trim();
@@ -13,7 +15,9 @@ const normalizeUrl = (value) => {
     if (url.pathname !== "/" && url.pathname.endsWith("/")) {
       url.pathname = url.pathname.slice(0, -1);
     }
-    return url.toString();
+    const result = url.toString();
+    if (!urlRegex.test(result)) return null;
+    return result;
   } catch {
     return null;
   }
@@ -24,7 +28,9 @@ export const createShortUrl = async (req, res) => {
 
   const normalizedUrl = normalizeUrl(originalUrl);
   if (!normalizedUrl) {
-    return res.status(400).json({ message: "Invalid original URL" });
+    return res.status(400).json({
+      message: "Invalid URL. Make sure it starts with http:// or https://",
+    });
   }
 
   try {

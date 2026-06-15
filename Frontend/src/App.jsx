@@ -54,11 +54,10 @@ export default function App() {
       <div className="ambient" />
       <main className="app-container">
         <header>
-          <p className="eyebrow">Link Toolkit</p>
-          <h1>Shorten Long URLs Instantly</h1>
+          <p className="eyebrow">SnipURL</p>
+          <h1>Shorten Links, Instantly</h1>
           <p className="subtitle">
-            Fast, simple and reliable URL shortening with direct backend
-            integration.
+            Paste a long URL and get a short, shareable link in seconds.
           </p>
         </header>
 
